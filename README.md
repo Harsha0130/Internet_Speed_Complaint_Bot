@@ -48,6 +48,10 @@
 - Adjust `S_DOWNLOAD` to your acceptable minimum download speed (in Mbps).
 - Adjust `S_UPLOAD` to your acceptable minimum upload speed (in Mbps).
 
-### Screenshot
+### Screenrecord: 
 
-![Twitter Bot Screenshot](https://github.com/Harsha0130/Internet_Speed_Complaint_Bot/assets/127675058/screenshot_placeholder.png)
+https://github.com/user-attachments/assets/119d14bd-9699-4a3b-8948-39cbdfd4afb2
+
+
+
+
