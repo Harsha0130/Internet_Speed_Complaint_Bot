@@ -1,11 +1,13 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 import os
 import time
 
 S_DOWNLOAD = 100
 S_UPLOAD = 120
 TWITTER_EMAIL = os.environ["Email"]
+TWITTER_USERNAME = os.environ["Username"]
 TWITTER_PASSWORD = os.environ["Password"]
 
 
@@ -18,34 +20,45 @@ class InternetSpeedTwitterBot:
         self.download = 0
 
     def get_internet_speed(self):
-        self.driver.get("https://speed.is/")
-        go_button = self.driver.find_element(By.CLASS_NAME, value="text-primary")
-        go_button.click()
+        # self.driver.get("https://speed.is/")
+        # go_button = self.driver.find_element(By.CLASS_NAME, value="text-primary")
+        # go_button.click()
 
-        previous_download = None
-        previous_upload = None
-
-        while True:
-            current_download = self.driver.find_element(By.ID, "result_download_val").text
-            current_upload = self.driver.find_element(By.ID, "result_upload_val").text
-
-            if previous_download and previous_upload:
-                # Break if the speeds have stabilized and are non-zero
-                if current_download == previous_download and current_upload == previous_upload:
-                    if float(current_download) > 0 and float(current_upload) > 0:
-                        self.download = current_download
-                        self.upload = current_upload
-                        break
-
-            previous_download = current_download
-            previous_upload = current_upload
-            time.sleep(1)  # Check every second
-
-        print(f"Download speed: {self.download} Mbps")
-        print(f"Upload speed: {self.upload} Mbps")
+        # previous_download = None
+        # previous_upload = None
+        #
+        # while True:
+        #     current_download = self.driver.find_element(By.ID, "result_download_val").text
+        #     current_upload = self.driver.find_element(By.ID, "result_upload_val").text
+        #
+        #     if previous_download and previous_upload:
+        #         # Break if the speeds have stabilized and are non-zero
+        #         if current_download == previous_download and current_upload == previous_upload:
+        #             if float(current_download) > 0 and float(current_upload) > 0:
+        #                 self.download = current_download
+        #                 self.upload = current_upload
+        #                 break
+        #
+        #     previous_download = current_download
+        #     previous_upload = current_upload
+        #     time.sleep(2)  # Check every second
+        #
+        # print(f"Download speed: {self.download} Mbps")
+        # print(f"Upload speed: {self.upload} Mbps")
+        pass
 
     def tweet_at_provider(self):
-        pass
+        self.driver.get("https://x.com/i/flow/login")
+        time.sleep(5)
+        email = self.driver.find_element(By.NAME, value="text")
+        email.send_keys(TWITTER_EMAIL, Keys.ENTER)
+        # For reverification with username
+        time.sleep(2)
+        email = self.driver.find_element(By.NAME, value="text")
+        email.send_keys(TWITTER_USERNAME, Keys.ENTER)
+        time.sleep(1)
+        email = self.driver.find_element(By.NAME, value="password")
+        email.send_keys(TWITTER_PASSWORD, Keys.ENTER)
 
 
 # Create an instance of the bot and run the speed test
