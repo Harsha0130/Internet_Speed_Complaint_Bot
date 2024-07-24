@@ -1,0 +1,30 @@
+    def get_internet_speed(self):
+        self.driver.get("https://speed.is/")
+        go_button = self.driver.find_element(By.CLASS_NAME, value="text-primary")
+        go_button.click()
+
+        previous_download = ""
+        previous_upload = ""
+        stable_count = 0
+        stable_threshold = 2  # Number of stable readings required
+
+        while True:
+            current_download = self.driver.find_element(By.ID, "result_download_val").text
+            current_upload = self.driver.find_element(By.ID, "result_upload_val").text
+
+            if current_download and current_upload:  # Ensure values are not empty
+                if current_download == previous_download and current_upload == previous_upload:
+                    stable_count += 1
+                    if stable_count >= stable_threshold:
+                        self.download = current_download
+                        self.upload = current_upload
+                        break
+                else:
+                    stable_count = 0
+
+            previous_download = current_download
+            previous_upload = current_upload
+            time.sleep(1)  # Check every second
+
+        print(f"Download speed: {self.download} Mbps")
+        print(f"Upload speed: {self.upload} Mbps")
