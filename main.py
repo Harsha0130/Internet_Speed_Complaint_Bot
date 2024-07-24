@@ -1,8 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+# from selenium.webdriver.support.ui import WebDriverWait
+# from selenium.webdriver.support import expected_conditions as EC
 import os
 import time
 
@@ -45,31 +45,33 @@ class InternetSpeedTwitterBot:
             previous_upload = current_upload
             time.sleep(2)  # Check every second
 
-        print(f"Download speed: {self.download} Mbps")
-        print(f"Upload speed: {self.upload} Mbps")
-
-
     def tweet_at_provider(self):
-        # wait = WebDriverWait(self.driver, 10)
-        self.driver.get("https://x.com/i/flow/login")
-        time.sleep(5)
-        email = self.driver.find_element(By.NAME, value="text")
-        email.send_keys(TWITTER_EMAIL, Keys.ENTER)
-        # For reverification with username
-        time.sleep(2)
-        email = self.driver.find_element(By.NAME, value="text")
-        email.send_keys(TWITTER_USERNAME, Keys.ENTER)
-        time.sleep(1)
-        email = self.driver.find_element(By.NAME, value="password")
-        email.send_keys(TWITTER_PASSWORD, Keys.ENTER)
+        if float(self.download) < S_DOWNLOAD and float(self.upload) < S_UPLOAD:
+            # wait = WebDriverWait(self.driver, 10)
+            self.driver.get("https://x.com/i/flow/login")
+            time.sleep(5)
+            email = self.driver.find_element(By.NAME, value="text")
+            email.send_keys(TWITTER_EMAIL, Keys.ENTER)
+            # For reverification with username
+            time.sleep(2)
+            email = self.driver.find_element(By.NAME, value="text")
+            email.send_keys(TWITTER_USERNAME, Keys.ENTER)
+            time.sleep(1)
+            email = self.driver.find_element(By.NAME, value="password")
+            email.send_keys(TWITTER_PASSWORD, Keys.ENTER)
 
-        time.sleep(5)
-        tweet_box = self.driver.find_element(By.CSS_SELECTOR, 'div[data-testid="tweetTextarea_0"]')
-        tweet_box.send_keys(f"Hey @SallSatinder, why is my internet speed is Download_speed = {self.download}Mbps"
-                            f"| Upload_speed = {self.upload}Mbps, when i pay for {S_DOWNLOAD}Mbps|{S_UPLOAD}Mbps")
-        time.sleep(2)
-        post = self.driver.find_element(By.CSS_SELECTOR, value='button[data-testid="tweetButtonInline"]')
-        post.click()
+            time.sleep(5)
+            tweet_box = self.driver.find_element(By.CSS_SELECTOR, 'div[data-testid="tweetTextarea_0"]')
+            tweet_box.send_keys(f"Hey @SallSatinder, why is my internet speed is Download_speed = {self.download}Mbps"
+                                f"| Upload_speed = {self.upload}Mbps, when i pay for {S_DOWNLOAD}Mbps|{S_UPLOAD}Mbps")
+            time.sleep(2)
+            post = self.driver.find_element(By.CSS_SELECTOR, value='button[data-testid="tweetButtonInline"]')
+            post.click()
+
+        else:
+            print("Your internet speed good")
+            print(f"Download speed: {self.download} Mbps")
+            print(f"Upload speed: {self.upload} Mbps")
 
 
 # Create an instance of the bot and run the speed test
